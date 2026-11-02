@@ -142,11 +142,11 @@ To copy your folder path: open the folder in File Explorer, click the address ba
 
 ## Peer run
 
-**Classmate:** ____
+**Classmate:** I asked two classmates to test the tool from a fresh download. One was ill and the other couldn't reply before the deadline, so no classmate feedback is included here.
 
-> ____ (their three sentences: what they did, what happened, what confused them or broke)
+**My own fresh-download run (Nov 2, Maya 2025.1, Windows):** I downloaded the repo as a ZIP into a new folder (`E:\xz\pfa-midterm-final-main`), restarted Maya, opened a new scene, and followed only this README. Before my fix, the README told users to paste a long Python line and edit a folder path by hand. That path pointed to my own folder (`E:\pfa-midterm`), so it broke for anyone who downloaded the repo somewhere else, and a pasted line with spaces in front of it gave an "unexpected indent" error.
 
-**What I fixed:** ____ (one real change you made because of their run)
+**What I fixed:** I added two drag-and-drop launchers, `open_ripple_demo.mel` and `open_ripple.mel`. Each one finds the folder it was dropped from, adds it to Maya's Python path, and opens the tool, so nobody has to type or edit a path. I rewrote the install steps around them and kept the Python line only as a fallback. I then re-ran the fresh-download test: dragging `open_ripple_demo.mel` into Maya built the demo scene and opened the Ripple window, and Load Selection → Delay 4 → Preview rippled the 16 shapes after the sphere.
 
 ---
 
