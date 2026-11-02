@@ -1,0 +1,10 @@
+// Drag this file into Maya's viewport to build the demo scene and open the Ripple tool.
+// WARNING: starts a new scene (save your work first).
+global proc rippleDemoWhereAmI() {}
+{
+    string $where = `whatIs rippleDemoWhereAmI`;
+    string $file = `substring $where 25 (size($where))`;
+    string $dir = `dirname $file`;
+    python("import sys, importlib\nif r'" + $dir + "' not in sys.path: sys.path.insert(0, r'" + $dir + "')\nimport make_test_scene\nimportlib.reload(make_test_scene)\nmake_test_scene.build()\nimport ripple_manhattan\nimportlib.reload(ripple_manhattan)\nripple_manhattan.show()");
+    print ("Demo scene built; Ripple opened from " + $dir + "\n");
+}

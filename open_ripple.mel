@@ -1,0 +1,10 @@
+// Drag this file into Maya's viewport to open the Ripple tool.
+// It finds the folder it was dropped from, so it works wherever you downloaded the repo.
+global proc rippleWhereAmI() {}
+{
+    string $where = `whatIs rippleWhereAmI`;          // "Mel procedure found in: C:/.../open_ripple.mel"
+    string $file = `substring $where 25 (size($where))`;
+    string $dir = `dirname $file`;
+    python("import sys, importlib\nif r'" + $dir + "' not in sys.path: sys.path.insert(0, r'" + $dir + "')\nimport ripple_manhattan\nimportlib.reload(ripple_manhattan)\nripple_manhattan.show()");
+    print ("Ripple opened from " + $dir + "\n");
+}
