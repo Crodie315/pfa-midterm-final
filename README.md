@@ -1,79 +1,76 @@
 # Ripple: Overlap and Earthquake Tools for Maya
 
-Ripple is a Maya window with two tabs:
+**Demo video (2 min):** [PASTE YOUR VIDEO LINK HERE](https://example.com)
 
-- **Ripple:** takes the animation on one "driver" object and passes it to the other selected objects, each one a little later and a little weaker, so their motion ripples through the group in one click.
-- **Seismic:** builds Manhattan (or open land) and (hills, grass, soil, rock, plants) and sends an earthquake through it. Jagged rifts tear outward from the epicenter, rubble crumbles into the chasms, and the big plates of land between them tilt and sink, in the style of the film *2012*.
+Ripple is a tool window inside **Autodesk Maya** (tested in **Maya 2025.1 on Windows**; Python with PySide6, built into Maya, nothing to install). It has two tabs:
 
-- **App:** Autodesk Maya (tested in Maya 2025.1)
-- **Language:** Python with PySide6 (built into Maya 2025, nothing to install). Older Maya versions with PySide2 are also supported.
+- **Ripple (the chore from my pitch):** takes the animation on one "driver" object and passes it to the other selected objects, each one a little later and a little weaker, so their motion ripples through the group in one click. Without the tool this is 20–40 minutes of copying keys and shifting them in the Graph Editor.
+- **Seismic:** builds Manhattan, cracks it into pieces and sends an earthquake through it: rifts, collapsing buildings, the Statue of Liberty toppling, tsunami waves, and (in the Manhattan version) a spaceship strike that sets it all off, ending on an alien cat saying "Crodie is coming."
 
 ---
 
-## Install and run
+## Install and run (from a fresh download)
 
-You need Maya. No other installs.
+You only need Maya.
 
-**1. Get the files.** Click **Code → Download ZIP** on this GitHub page and unzip it, or clone the repo. Note the folder path, for example `E:\pfa-midterm`.
+**1. Get the files.** On this GitHub page click **Code → Download ZIP**, then unzip it anywhere (or `git clone` the repo). Keep all the files together in one folder.
 
-The folder contains:
-- `ripple.py`: the tool
-- `make_test_scene.py`: builds a demo scene to try it on
+**2. Drag one file into Maya's viewport:**
 
-**2. Open Maya's Script Editor.** Go to **Windows → General Editors → Script Editor**, then click the **Python** tab (not MEL).
+| Drag this file | What happens |
+|---|---|
+| `open_ripple_demo.mel` | Starts a **new scene** with a demo setup (a bouncing sphere and 16 shapes around it, all selected) and opens the Ripple window. **Start here.** Save your work first. |
+| `open_ripple.mel` | Opens the Ripple window in your current scene. |
 
-> Run everything inside **Maya's Script Editor**, not in a Windows terminal or a separate Python window. The tool needs Maya's own Python.
+Drag the file from File Explorer and drop it onto Maya's main viewport (the big 3D view). The window opens; nothing else to type.
 
-To find your folder path: open the folder in File Explorer, click the address bar, and copy it (Ctrl+C).
-
-**3. Paste this ONE line and press Ctrl+Enter.** Replace `E:\pfa-midterm` with your folder path, keeping the `r"..."` around it. This replaces the current scene, so save your work first.
+**If dragging doesn't work** (some Maya setups block it): open **Windows → General Editors → Script Editor**, click the **Python** tab, paste this one line, change the folder in quotes to **your** unzipped folder (for a ZIP it ends in `-main`), and press **Ctrl+Enter**:
 
 ```python
-import sys, importlib; sys.path.append(r"E:\pfa-midterm"); import make_test_scene; importlib.reload(make_test_scene); make_test_scene.build(); import ripple; importlib.reload(ripple); ripple.show()
+import sys, importlib; sys.path.append(r"C:\Users\YOU\Downloads\pfa-midterm-main"); import ripple_manhattan; importlib.reload(ripple_manhattan); ripple_manhattan.show()
 ```
 
-> Keep it on one line. If you split it into several lines with spaces at the start, Python stops with "unexpected indent".
-
-You should see a sphere in the middle, 16 shapes in two rings around it (all selected), and the **Ripple** window.
-
-**4. Use it.**
-1. With everything still selected, click **Load Selection**. The sphere becomes the driver and the 16 shapes are listed as followers.
-2. Set **Delay** to about 4 fr. At 0, every shape moves at the same moment and there's no wave.
-3. Pick **Order → Distance from driver**. The inner ring will move before the outer ring.
-4. Click **Preview**. The ripple is applied and the timeline plays.
-5. Click **Revert** to take it back, change a slider, and Preview again.
-6. Click **Apply** to keep it. One **Ctrl+Z** undoes the whole thing.
-7. Try a **Preset** such as Wave Pop, or click **Save** to keep your own settings as a preset.
-
-**Using it on your own scene:** animate one object, select it **first**, then shift-select the objects that should follow. Then follow step 4.
-
-**5. Seismic tab: make an earthquake.**
-1. Click the **Seismic** tab at the top of the Ripple window.
-2. Click **Place Epicenter**. A red locator appears at the centre. Move it with the **W** key if you want the quake to start somewhere else.
-3. Pick a **Map**: **Manhattan** (the island with its street grid, buildings, Central Park and the rivers) or **Square land** (open hills with trees). Click **Shatter Ground**. The map is built and cracked along jagged faults. Use the sliders below to change it. This takes a few seconds, and switches the viewport to clean shaded view.
-4. Pick a **Preset** such as Strong Quake, or set Magnitude, Wave speed, Damping, and Crack threshold yourself. The seismograph and the line under it update as you drag.
-5. Click **Preview**. Keying takes a few seconds, then the timeline plays once. The status line tells you the frames to watch. The main shock arrives, the crater and rifts crack open, and the small broken pieces start **melting away like an iceberg**: each one sinks into the ground while shrinking and slumping, then disappears. Aftershocks keep shaking the whole map, and **each aftershock melts another batch**, bigger pieces later, until nothing is left. The timeline ends right after the last piece is gone.
-6. **Revert** takes it back, **Apply** keeps it, and one **Ctrl+Z** undoes an Apply.
-7. To shake the test-scene shapes too, select them and set **Shake → Ground + selected**.
+To copy your folder path: open the folder in File Explorer, click the address bar, Ctrl+C. Keep the whole command on one line (spaces at the start give "unexpected indent").
 
 ---
 
-## Two versions
+## Use it: the Ripple tab (the chore)
 
-| File | What it shows | Launch line (Script Editor, Python tab) |
-|---|---|---|
-| `ripple.py` | **New York City:** all five boroughs (checkbox), real shorelines, tsunami from every coast | `import sys, importlib; sys.path.append(r"E:\pfa-midterm"); import ripple; importlib.reload(ripple); ripple.show()` |
-| `ripple_manhattan.py` + `crodie_voice.wav` | **Manhattan + Statue of Liberty + spaceship strike + alien finale:** a spaceship flies in and fires at the epicenter; the impact flash, a ground surge and a mushroom cloud set off the quake, the collapse and the tsunami | `import sys, importlib; sys.path.append(r"E:\pfa-midterm"); import ripple_manhattan; importlib.reload(ripple_manhattan); ripple_manhattan.show()` |
+1. After `open_ripple_demo.mel`, everything is already selected. Click **Load Selection**: the sphere becomes the driver, the 16 shapes the followers.
+2. Set **Delay** to about **4 fr** (at 0 they all move together).
+3. Pick **Order → Distance from driver**, so the inner ring moves before the outer ring.
+4. Click **Preview**: the ripple is applied and the timeline plays. **Revert** takes it back; change a slider and Preview again.
+5. Click **Apply** to keep it. One **Ctrl+Z** undoes the whole thing.
+6. Try a **Preset** (Floppy Tail, Wave Pop, Domino Spin, Heavy Rope) or **Save** your own.
 
-Both use the same window and steps: Place Epicenter → Shatter Ground → Beauty View → Preview.
+**On your own scene:** animate one object, select it **first**, shift-select the objects that should follow, then do the steps above.
+
+## Use it: the Seismic tab
+
+1. Click the **Seismic** tab, then **Place Epicenter** (a red locator at the centre; move it with **W** if you like).
+2. Click **Shatter Ground** and wait until the cursor is normal: Manhattan is built and cracked.
+3. Click **Beauty View** (lighting, haze and the camera `seismic_cam`), then **Preview**. Watch through the Beauty View camera: the ship flies in and fires, the city shakes, collapses and sinks, the tsunami spreads, then the screen fades to black and the cat's ship flies up to the camera.
+4. **Revert** takes it all back; **Apply** keeps it.
+
+## The files
+
+| File | What it is |
+|---|---|
+| `ripple_manhattan.py` | **The main tool** (opened by the `.mel` launchers): both tabs; Manhattan with the Statue of Liberty, the spaceship strike, the cat finale, captions and voice. Fast enough to demo. |
+| `ripple.py` | The same window with **all five boroughs of New York City** (Bronx, Queens, Brooklyn, Staten Island, from real shorelines). Much heavier: building it can take several minutes. Open it with the line above, using `ripple` instead of `ripple_manhattan`. |
+| `make_test_scene.py` | Builds the Ripple demo scene. |
+| `crodie_voice.wav` | The alien's voice clip (loaded automatically on the timeline). |
+| `open_ripple.mel`, `open_ripple_demo.mel` | Drag-and-drop launchers. |
+
+---
+
+## What it does in detail
 
 **The spaceship strike** (`ripple_manhattan.py`, checkbox *Spaceship strike starts it*, on by default): an original heavy gunship (armoured spine with a tapered nose and glass cockpit, layered hull plates, two engine pods with blue exhaust, twin nose cannons, a belly turret, antennas and surface detail) flies in over the harbour nose-first, banking as it turns (frames 1-34), turns to face the city, charges its engines and fires a slow, pulsing bolt with a glowing trail from its belly turret (frame 50). The bolt takes 36 frames to cross. At impact (frame 86) a white-hot flash swells and fades, a point light lights up the city, a ring of dust races out across the ground, and a mushroom cloud (a flared stem and a boiling cap) rises, glows orange, cools to grey smoke and drifts away. The ship watches the hit, then banks away. The quake, the building collapse, the melting and the tsunami all start at the impact frame. Revert takes the strike and the quake back in one step.
 
 **The finale** (`ripple_manhattan.py`, part of the strike): like a scene after a film's closing credits. As soon as the last tsunami wave dies away, the picture fades to black and cuts to a new shot through the same Beauty View camera: low over the open sea beyond the city's south end, looking out at the sunset horizon. The timeline ends when the cat finishes his line. A second gunship appears on the horizon, flies straight at the audience, rolls level and stops just in front of the lens. A green cat alien stands on the ship's nose, made like a polished 3D toy: its head and body are each one sculpted smooth shape (a wide cat head with puffy cheeks, a rounded muzzle and a soft chin; a pear-shaped body with a round tummy), with a cheeky expression (sly half-lidded yellow-green eyes with slit pupils glancing to the side, one eyebrow raised and one lowered, a lopsided smirk with a little fang, and a cocky head tilt), rounded ears with pink insides, a pink nose, whiskers, tabby stripes on the forehead, a pale muzzle and tummy, a darker back, two antennae with glossy green balls, stubby legs with toes, and a smooth curled tail with a darker tip that swishes. Its materials have a soft satin sheen, like vinyl. One paw rests on its tummy; with the other it dribbles an orange basketball on the hull (the ball spins and squashes on each bounce, the arm pumps, the knees give a little), and while dribbling it says "Crodie is coming." The mouth opens and closes with each syllable, and a synthesized alien voice clip, `crodie_voice.wav`, plays on the Time Slider if it is in the same folder as the script (replace it with your own recording under the same name to change the voice). Clicking Beauty View again after Preview keeps this animated camera.
 
 **Captions** (checkbox *Captions*, on by default): closed captions run along the bottom of the Beauty View camera for the whole strike: sound cues in [brackets] (engines growing louder, the cannon charging, the bolt crackling, the blast, the ground splitting, the Statue of Liberty toppling, sirens, crashing waves, aftershocks, silence, the ship approaching, purring and a basketball bouncing) and the alien's line, "ALIEN [in a warbling voice]: Crodie is coming." Each one shows only while that moment is on screen.
-
-## What works now
 
 ### Ripple tab
 - **Load Selection:** first selected object = driver, the rest = followers. Works with any mix of shapes.
@@ -112,17 +109,34 @@ Both use the same window and steps: Place Epicenter → Shatter Ground → Beaut
 - **Aftershocks take it piece by piece:** after the main shock, aftershocks arrive every 22–42 frames and travel across the map, on top of a constant rumble. Each one sets off the next batch of melting: broken rubble first, then small pieces, then the big land, partly by distance from the epicenter and partly by a lumpy random pattern, so it's irregular. The shaking only stops when the last piece is gone. The seismograph shows the tremors.
 - **Controls:** **Pieces melt away and disappear** (off: they sink below the ground and stay), **Keep melting until everything is gone** (off: only the rifts and crater melt), and **Collapse duration** (how long the aftershocks keep coming).
 
+---
 
-## Known limits
+## How I tested it
 
-- Apply replaces any keys the followers already had on the checked channels.
-- Ripple copies keys from the driver's own channels. A driver animated by constraints or expressions, with no keys, won't ripple.
-- Revert uses Maya's undo, so do Revert before doing other work in the scene.
-- **Shatter Ground can't be undone with Ctrl+Z** (the pieces are built with Maya's API, which isn't recorded in undo). Click Shatter Ground again to rebuild, or delete `seismic_ground_grp` and `seismic_props_grp`. Shattering also clears the undo history.
-- Shatter cracks a landscape made by the tool, not your own mesh.
-- Objects you place yourself (like the test-scene shapes) don't sit on the hills automatically; they may float above or sink into the terrain.
-- With many pieces, Shatter Ground, Preview, and Apply take a few seconds, and playback in the viewport may be slower than real time. Use a playblast to see the real speed.
-- Preview sets Maya's playback to play once. Set it back to looping in the time slider's playback options if you want.
+- Downloaded the repo as a ZIP into a new folder and followed only this README in **Maya 2025.1 on Windows**.
+- **Ripple tab:** demo scene, Load Selection, Delay 4, Distance order, Preview, Revert, Apply, Ctrl+Z; presets; my own scene with a tail chain.
+- **Seismic tab:** Place Epicenter, Shatter Ground, Beauty View, Preview through the whole timeline (strike, collapse, tsunami, fade, cat finale); Revert and Preview again.
+- **Full city** (`ripple.py`): built and played once with lighter settings (Land detail 400, Collapse zone 20%).
+- Recorded the result (video link at the top).
+
+## What doesn't work yet
+
+- **Ripple** copies keys from the driver's own channels. A driver moved only by constraints or expressions (no keys) won't ripple. Apply replaces keys the followers already had on the checked channels.
+- **Revert** uses Maya's undo, so do Revert before other work in the scene. **Shatter Ground can't be undone** with Ctrl+Z (the pieces are built with Maya's API); click it again to rebuild.
+- **Shatter** cracks the landscape the tool builds, not your own mesh.
+- **Speed:** the full five-borough city (`ripple.py`) takes several minutes to build and plays slower than real time in the viewport. The Manhattan version is much faster. Use a playblast to see the real speed.
+- **Captions** are solid 3D text when Maya can build it; otherwise they fall back to viewport text labels (visible in the viewport and playblasts, but not in a render).
+- The **alien voice** is a synthesized alien-language clip, not real speech; the English line is in the captions. You can replace `crodie_voice.wav` with your own recording.
+- The cat is built from simple shapes, so there's no real fur.
+- Only tested in Maya 2025.1 on Windows.
+
+## What I'd build next
+
+1. **Ripple on any animation:** read constrained or expression-driven motion by sampling the driver frame by frame, so it works on rigs, not only keyed objects.
+2. **Shatter your own mesh:** crack any ground the artist models, not only the generated map.
+3. **Speed for the full city:** bake the quake to an Alembic cache so it plays in real time and renders fast.
+4. **A "Make movie" button** that playblasts the Beauty View camera with sound in one click.
+5. **Real fur** for the cat with XGen for final renders.
 
 ---
 
@@ -132,7 +146,7 @@ Both use the same window and steps: Place Epicenter → Shatter Ground → Beaut
 
 > ____ (their three sentences: what they did, what happened, what confused them or broke)
 
-**What I'll fix next week:** ____
+**What I fixed:** ____ (one real change you made because of their run)
 
 ---
 
