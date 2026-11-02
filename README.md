@@ -1,6 +1,6 @@
 # Ripple: Overlap and Earthquake Tools for Maya
 
-**Demo video (2 min):** [PASTE YOUR VIDEO LINK HERE](https://example.com)
+**Demo video (2:49):** [Watch on YouTube](https://youtu.be/KxQjwTTZ4yl)
 
 Ripple is a tool window inside **Autodesk Maya** (tested in **Maya 2025.1 on Windows**; Python with PySide6, built into Maya, nothing to install). It has two tabs:
 
